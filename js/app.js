@@ -1,12 +1,12 @@
 import {sounds,defaultPresets } from './soundData.js'
 import {SoundManager} from './soundManager.js'
-
+import {UI}  from './ui.js'
 class AmbientMixer {
     //Initialize dependencies and default state
     constructor(){
         console.log("Initializing state...");
         this.soundManager = new SoundManager(),
-        this.ui = null,
+        this.ui = new UI(),
         this.presetManager = null,
         this.timer = null,
         this.currentSoundState ={}
@@ -15,11 +15,18 @@ class AmbientMixer {
 
      init(){
         try {
+            //Initialize UI elements
+            this.ui.init();
+
+            //Render sound cards using sound data
+            this.ui.renderSoundCards(sounds);
+            
             //load all sound files
             this.loadAllSounds();
 
             //Try to play rain
-            
+            this.isInitialized = true;
+            console.log("App initialized successfully.");
         } catch (error) {
             console.log('Failed to inititalize app:',error)
         }
