@@ -13,18 +13,35 @@ class AmbientMixer {
         this.isInitialized = false;
     }
 
-    init(){
+     init(){
         try {
-            this.soundManager.loadSound('rain','audio/rain.mp3');
-            this.isInitialized =true;
+            //load all sound files
+            this.loadAllSounds();
 
+            //Try to play rain
+            
         } catch (error) {
             console.log('Failed to inititalize app:',error)
         }
+    }
+
+    loadAllSounds(){
+        sounds.forEach((sound)=>{
+            const audioUrl = `audio/${sound.file}`;
+            const success = this.soundManager.loadSound(sound.id,audioUrl);
+            if(!success){
+                console.warn(`Could not load sound: ${sound.name} from ${audioUrl}`)
+            }
+        })
     }
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
     const app = new AmbientMixer();
     app.init();
+
+
+    //Make app available for testing in browser
+    window.app = app;
+    
 })
